@@ -1,5 +1,6 @@
 package io.github.staanov.backend.service.lucene;
 
+import io.github.staanov.backend.dto.FacetedSearchDto;
 import io.github.staanov.backend.model.Movie;
 import io.github.staanov.backend.model.MovieQuery;
 
@@ -10,5 +11,5 @@ public interface Searcher {
 
   List<Movie> searchDocuments(MovieQuery movieQuery);
 
-  Map<String, Object> searchDocumentsWithFacets(MovieQuery movieQuery);
+  FacetedSearchDto searchDocumentsWithFacets(MovieQuery movieQuery);
 }

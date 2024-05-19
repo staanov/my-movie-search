@@ -1,5 +1,6 @@
 package io.github.staanov.backend.service.lucene;
 
+import io.github.staanov.backend.dto.FacetedSearchDto;
 import io.github.staanov.backend.model.Movie;
 import io.github.staanov.backend.model.MovieQuery;
 import org.apache.lucene.analysis.Analyzer;
@@ -69,7 +70,7 @@ public class LuceneMovieDataSearcher {
     return getMovies(result);
   }
 
-  public Map<String, Object> searchDocumentsWithFacets(MovieQuery movieQuery) throws IOException {
+  public FacetedSearchDto searchDocumentsWithFacets(MovieQuery movieQuery) throws IOException {
     BooleanQuery.Builder builder = buildQuery(movieQuery);
 
     List<String> genres = movieQuery.getGenres();
@@ -101,17 +102,17 @@ public class LuceneMovieDataSearcher {
     Facets facets = new SortedSetDocValuesFacetCounts(state, facetsCollector);
     FacetResult facetResult = facets.getAllChildren(LuceneMovieDataIndexer.GENRES);
 
-    Map<String, Object> resultMap = new HashMap<>();
-    resultMap.put(RESULT, movies);
-    resultMap.put(FACETS, facetResult);
-    return resultMap;
+    FacetedSearchDto dto = new FacetedSearchDto();
+    dto.setResult(movies);
+    dto.setFacets(facetResult);
+    return dto;
   }
 
-  public Map<String, Object> getEmptySearchResult() {
-    Map<String, Object> map = new HashMap<>();
-    map.put(RESULT, new ArrayList<>());
-    map.put(FACETS, new FacetResult("", new String[]{}, 0, new LabelAndValue[]{}, 0));
-    return map;
+  public FacetedSearchDto getEmptySearchResult() {
+    FacetedSearchDto dto = new FacetedSearchDto();
+    dto.setResult(new ArrayList<>());
+    dto.setFacets(new FacetResult("", new String[]{}, 0, new LabelAndValue[]{}, 0));
+    return dto;
   }
 
   private List<Movie> getMovies(TopDocs result) throws IOException {

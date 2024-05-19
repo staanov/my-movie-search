@@ -1,5 +1,6 @@
 package io.github.staanov.backend.controller;
 
+import io.github.staanov.backend.dto.FacetedSearchDto;
 import io.github.staanov.backend.model.MovieQuery;
 import io.github.staanov.backend.service.SearchService;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +24,13 @@ public class SearchController {
   }
 
   @PostMapping
-  public ResponseEntity<Map<String, Object>> searchInLuceneWithFacets(@RequestBody MovieQuery movieQuery) {
+  public ResponseEntity<FacetedSearchDto> searchInLuceneWithFacets(@RequestBody MovieQuery movieQuery) {
     if (movieQuery == null) {
       return ResponseEntity.ok().build();
     }
     if (movieQuery.getSearchString() == null) {
       movieQuery.setSearchString("");
     }
-    Map<String, Object> resultMap = searchService.searchDocumentsOnLuceneWithFacets(movieQuery);
-    return ResponseEntity.ok(resultMap);
+    return ResponseEntity.ok(searchService.searchDocumentsOnLuceneWithFacets(movieQuery));
   }
 }

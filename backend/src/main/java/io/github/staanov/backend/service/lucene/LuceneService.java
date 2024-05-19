@@ -1,5 +1,6 @@
 package io.github.staanov.backend.service.lucene;
 
+import io.github.staanov.backend.dto.FacetedSearchDto;
 import io.github.staanov.backend.model.Movie;
 import io.github.staanov.backend.model.MovieQuery;
 import org.slf4j.Logger;
@@ -32,12 +33,12 @@ public class LuceneService implements Searcher {
   }
 
   @Override
-  public Map<String, Object> searchDocumentsWithFacets(MovieQuery movieQuery) {
+  public FacetedSearchDto searchDocumentsWithFacets(MovieQuery movieQuery) {
     try {
       return searcher.searchDocumentsWithFacets(movieQuery);
     } catch (IOException e) {
       LOGGER.error("Can't search documents with facets: {}", e.getMessage());
     }
-    return new HashMap<>();
+    return new FacetedSearchDto();
   }
 }

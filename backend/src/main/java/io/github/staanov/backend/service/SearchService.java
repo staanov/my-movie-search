@@ -1,6 +1,7 @@
 package io.github.staanov.backend.service;
 
 
+import io.github.staanov.backend.dto.FacetedSearchDto;
 import io.github.staanov.backend.model.Movie;
 import io.github.staanov.backend.model.MovieQuery;
 import io.github.staanov.backend.service.lucene.Searcher;
@@ -25,7 +26,7 @@ public class SearchService {
     return searcher.searchDocuments(movieQuery);
   }
 
-  public Map<String, Object> searchDocumentsOnLuceneWithFacets(MovieQuery movieQuery) {
+  public FacetedSearchDto searchDocumentsOnLuceneWithFacets(MovieQuery movieQuery) {
     Searcher searcher = searchFactory.get(LUCENE_SERVICE);
     return searcher.searchDocumentsWithFacets(movieQuery);
   }
